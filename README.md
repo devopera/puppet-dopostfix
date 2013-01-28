@@ -10,6 +10,10 @@ Usage
 class { 'dopostfix' : }
 ```
 
+dopostfix will send mail out via the domain's mail server, found from the FQDN using its MX record unless:
+1. force_restrict_relay => true, or
+2. FQDN finishes .localdomain
+
 Copyright and License
 ---------------------
 

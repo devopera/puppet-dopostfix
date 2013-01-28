@@ -5,7 +5,10 @@
 
 myhostname = <%= fqdn %>
 myorigin = $mydomain
+<%- if (($force_restrict_relay == true) || (fqdn =~ /localdomain$/).nil?) -%>
+# forward mail to domain's mail host (from MX record) if external
 relayhost = $mydomain
+<%- end -%>
 inet_interfaces = loopback-only
 mydestination =
 

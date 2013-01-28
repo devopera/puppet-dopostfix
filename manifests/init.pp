@@ -1,5 +1,5 @@
 class dopostfix (
-
+  $force_restrict_relay = false,
 ) {
   # postfix module depends on puppi
   class { 'puppi':

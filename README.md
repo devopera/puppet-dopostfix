@@ -1,18 +1,36 @@
 puppet-dopostfix
 ================
 
-Devopera puppet module for setting up basic null postfix
+Devopera puppet module for setting up postfix
+
+Changelog
+---------
+
+  * Added relay support and authenticated relay support
 
 Usage
 -----
 
+Null sender setup
 ```
 class { 'dopostfix' : }
 ```
 
+Relay setup to named host on named port
+```
+class { 'dopostfix' :
+  relay => true,
+  smtp_auth => true,
+  smtp_hostname => 'smtp.mandrillapp.com',
+  smtp_username => 'username',
+  smtp_password => 'password_or_API_key',
+}
+```
+
 dopostfix will send mail out via the domain's mail server, found from the FQDN using its MX record unless:
 1. force_restrict_relay => true, or
-2. FQDN finishes .localdomain
+2. FQDN finishes .localdomain, or
+3. relayhost != undef
 
 Copyright and License
 ---------------------

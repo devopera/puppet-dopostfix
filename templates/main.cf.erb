@@ -5,9 +5,20 @@
 
 myhostname = <%= fqdn %>
 myorigin = $mydomain
-<%- if (($force_restrict_relay == true) || (fqdn =~ /localdomain$/).nil?) -%>
+<%- if (relay) -%>
+# enable SASL authentication
+smtp_sasl_auth_enable = yes
+# tell Postfix where the credentials are stored
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_security_options = noanonymous
+# use STARTTLS for encryption
+smtp_use_tls = yes 
+relayhost = <%= relayhost %>
+<%- else -%>
+<%-   if (($force_restrict_relay == true) || (fqdn =~ /localdomain$/).nil?) -%>
 # forward mail to domain's mail host (from MX record) if external
 relayhost = $mydomain
+<%-   end -%>
 <%- end -%>
 inet_interfaces = loopback-only
 mydestination =

@@ -19,16 +19,27 @@ class dopostfix (
   # setup variables for template
   $relayhost = "[${smtp_hostname}]"
 
-  # install the package ignoring broken deps
-  #exec { 'postfix-install' :
-  #  path => '/usr/bin:/bin:',
-  #  command => 'yum install -q -y --skip-broken postfix',
-  #}->
+  # install OS dependent packages
+  case $operatingsystem {
+    centos, redhat: {
+      package { 'postfix-install-prereq' :
+        name => ['cyrus-sasl-plain'],
+        ensure => 'present',
+      }
+    }
+    ubuntu, debian: {
+      package { 'postfix-install-prereq' :
+        name => ['sasl2-bin'],
+        ensure => 'present',
+      }
+    }
+  }
   
   # install required packages
   package { 'postfix-install' :
-    name => ['postfix', 'cyrus-sasl-plain'],
+    name => ['postfix'],
     ensure => present,
+    require => Package['postfix-install-prereq'],
   }->
   
   # setup the config using our template
@@ -67,6 +78,7 @@ class dopostfix (
       command => 'setsebool -P httpd_can_sendmail 1',
     }
   }
+  notify { "selinx statuz = ${::selinux}": }
 
 }
 

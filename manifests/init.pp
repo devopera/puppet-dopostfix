@@ -71,7 +71,7 @@ class dopostfix (
     enable    => true,
   }
 
-  if ($::selinux) {
+  if (str2bool($::selinux)) {
     # allow the web server to send email
     exec { 'postfix-selinux-httpdcan' :
       path => '/usr/bin:/bin:/usr/sbin',

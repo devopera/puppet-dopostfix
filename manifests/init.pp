@@ -21,7 +21,7 @@ class dopostfix (
 
   # install OS dependent packages
   case $operatingsystem {
-    centos, redhat: {
+    centos, redhat, fedora: {
       package { 'postfix-install-prereq' :
         name => ['cyrus-sasl-plain'],
         ensure => 'present',
@@ -78,7 +78,6 @@ class dopostfix (
       command => 'setsebool -P httpd_can_sendmail 1',
     }
   }
-  notify { "selinx statuz = ${::selinux}": }
 
 }
 

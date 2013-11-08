@@ -69,6 +69,7 @@ class dopostfix (
   service { 'postfix':
     ensure    => running,
     enable    => true,
+    require   => [Package['postfix-install']],
   }
 
   if (str2bool($::selinux)) {

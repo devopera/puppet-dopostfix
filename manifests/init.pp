@@ -12,12 +12,21 @@ class dopostfix (
   $smtp_username = 'web',
   $smtp_password = 'admLn**',
 
+  # monitor by default
+  $monitor = true,
+
   $force_restrict_relay = false,
 
 ) inherits dopostfix::params {
 
   # setup variables for template
   $relayhost = "[${smtp_hostname}]"
+
+  # monitor if turned on
+  if ($monitor) {
+    class { 'dopostfix::monitor' :
+    }
+  }
 
   # install OS dependent packages
   case $operatingsystem {

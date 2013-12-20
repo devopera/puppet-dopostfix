@@ -32,13 +32,13 @@ class dopostfix (
   case $operatingsystem {
     centos, redhat, fedora: {
       package { 'postfix-install-prereq' :
-        name => ['cyrus-sasl-plain'],
+        name => 'cyrus-sasl-plain',
         ensure => 'present',
       }
     }
     ubuntu, debian: {
       package { 'postfix-install-prereq' :
-        name => ['sasl2-bin'],
+        name => 'sasl2-bin',
         ensure => 'present',
       }
     }
@@ -46,7 +46,7 @@ class dopostfix (
   
   # install required packages
   package { 'postfix-install' :
-    name => ['postfix'],
+    name => 'postfix',
     ensure => present,
     require => Package['postfix-install-prereq'],
   }->

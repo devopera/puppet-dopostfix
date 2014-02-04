@@ -12,7 +12,7 @@ class dopostfix::monitor (
 
   # check that postfix is running as a service
   @nagios::service { "int:process_postfix-dopostfix-${::fqdn}":
-    check_command => "check_procs!1:!1:!'postfix'",
+    check_command => "check_nrpe_procs_postfix",
   }
 
 }

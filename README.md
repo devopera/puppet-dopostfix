@@ -1,7 +1,7 @@
 [devopera](http://devopera.com)-[dopostfix](http://devopera.com/module/dopostfix)
 ================
 
-Devopera puppet module for setting up postfix
+Devopera puppet module for setting up the Postfix mail relay agent, which is a fast, easy to administer and secure alternative to Sendmail.
 
 Changelog
 ---------

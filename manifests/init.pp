@@ -56,6 +56,7 @@ class dopostfix (
     path => "${dopostfix::params::config_dir}/main.cf",
     content => template('dopostfix/main.cf.erb'),
     mode => '0644',
+    before => [Service['postfix']],
   }
 
   # if we're connecting to a secure relay server
@@ -86,6 +87,7 @@ class dopostfix (
     exec { 'postfix-selinux-httpdcan' :
       path => '/usr/bin:/bin:/usr/sbin',
       command => 'setsebool -P httpd_can_sendmail 1',
+      before => [Service['postfix']],
     }
   }
 

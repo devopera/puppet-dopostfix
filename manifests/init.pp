@@ -56,7 +56,7 @@ class dopostfix (
     path => "${dopostfix::params::config_dir}/main.cf",
     content => template('dopostfix/main.cf.erb'),
     mode => '0644',
-    before => [Service['postfix']],
+    before => [Anchor['dopostfix-service-ready']],
   }
 
   # if we're connecting to a secure relay server
@@ -71,6 +71,17 @@ class dopostfix (
     exec { 'postfix-sasl-passmap' :
       path => '/sbin:/usr/sbin',
       command => "postmap ${dopostfix::params::config_dir}/sasl_passwd",
+      before => [Anchor['dopostfix-service-ready']],
+    }
+  }
+  anchor { 'dopostfix-service-ready' : }
+
+  # manually restart the service silently as a hack to fix non-start errors  
+  if (true) {
+    exec { 'dopostfix-hack-fix-restart' :
+      path => '/bin:/usr/bin:/sbin:/usr/sbin',
+      command => 'service postfix restart > /dev/null 2>&1',
+      require => [Anchor['dopostfix-service-ready']],
       before => [Service['postfix']],
     }
   }
@@ -79,7 +90,7 @@ class dopostfix (
   service { 'postfix':
     ensure    => running,
     enable    => true,
-    require   => [Package['postfix-install']],
+    require   => [Package['postfix-install'], Anchor['dopostfix-service-ready']],
   }
 
   if (str2bool($::selinux)) {
@@ -87,7 +98,7 @@ class dopostfix (
     exec { 'postfix-selinux-httpdcan' :
       path => '/usr/bin:/bin:/usr/sbin',
       command => 'setsebool -P httpd_can_sendmail 1',
-      before => [Service['postfix']],
+      before => [Anchor['dopostfix-service-ready']],
     }
   }
 

@@ -78,9 +78,8 @@ class dopostfix (
 
   # manually restart the service silently as a hack to fix non-start errors  
   if (true) {
-    exec { 'dopostfix-hack-fix-restart' :
-      path => '/bin:/usr/bin:/sbin:/usr/sbin',
-      command => 'service postfix restart > /dev/null 2>&1',
+    docommon::restartsilent { 'dopostfix-hack-fix-restart' :
+      service => 'postfix',
       require => [Anchor['dopostfix-service-ready']],
       before => [Service['postfix']],
     }

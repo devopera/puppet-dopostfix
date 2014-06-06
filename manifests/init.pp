@@ -11,6 +11,7 @@ class dopostfix (
   $smtp_auth = false,
   $smtp_username = 'web',
   $smtp_password = 'admLn**',
+  $smtp_port = 25,
 
   # monitor by default
   $monitor = true,
@@ -21,6 +22,10 @@ class dopostfix (
 
   # setup variables for template
   $relayhost = "[${smtp_hostname}]"
+  $smtp_realport = $smtp_port ? {
+    25      => "",
+    default => ":${smtp_port}",
+  }
 
   # monitor if turned on
   if ($monitor) {
@@ -64,7 +69,7 @@ class dopostfix (
     # create and map SMTP AUTH password file
     file { 'postfix-sasl-password' :
       path => "${dopostfix::params::config_dir}/sasl_passwd",
-      content => "[${smtp_hostname}] ${smtp_username}:${smtp_password}",
+      content => "[${smtp_hostname}]${smtp_realport} ${smtp_username}:${smtp_password}",
       mode => '0600',
       require => [File['postfix-config']],
     }->

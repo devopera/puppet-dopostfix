@@ -13,7 +13,7 @@ smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 smtp_sasl_security_options = noanonymous
 # use STARTTLS for encryption
 smtp_use_tls = yes 
-relayhost = <%= relayhost %>
+relayhost = <%= relayhost %><%= smtp_realport %>
 <%- else -%>
 <%-   if (($force_restrict_relay == true) || (fqdn =~ /localdomain$/).nil?) -%>
 # forward mail to domain's mail host (from MX record) if external

@@ -1,0 +1,14 @@
+{
+  "name": "devopera-dopostfix",
+  "version": "0.9.0",
+  "author": "(c) Alex Stanhope, Devopera.com",
+  "summary": "Postfix installation and configuration module",
+  "license": "Apache License, Version 2.0",
+  "source": "https://github.com/devopera/puppet-dopostfix",
+  "description": "Devopera puppet module for setting up the Postfix mail relay agent, which is a fast, easy to administer and secure alternative to Sendmail.",
+  "project_page": "http://devopera.com/module/dopostfix",
+  "issues_url": "https://github.com/devopera/puppet-dopostfix/issues",
+  "dependencies": [
+  
+  ]
+}

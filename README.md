@@ -6,6 +6,10 @@ Devopera puppet module for setting up the Postfix mail relay agent, which is a f
 Changelog
 ---------
 
+2014-09-19
+
+  * Added SELinux cover for non-standard relay ports (e.g. 2525 instead of 25)
+
 2013-12-04
 
   * Added relay support and authenticated relay support

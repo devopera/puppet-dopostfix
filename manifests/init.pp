@@ -104,6 +104,13 @@ class dopostfix (
       command => 'setsebool -P httpd_can_sendmail 1',
       before => [Anchor['dopostfix-service-ready']],
     }
+    if ($smtp_port != 25) {
+      # if using on a non-standard port, that port will need to be opened for smtp
+      docommon::seport { "tcp/${smtp_port}":
+        port => $smtp_port,
+        seltype => 'smtp_port_t',
+      }
+    }
   }
 
 }
